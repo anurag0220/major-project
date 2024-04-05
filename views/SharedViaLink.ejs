@@ -1,0 +1,26 @@
+<%- include ("includes/header", { "title": "Shared via link" }) %>
+
+<div class="container mt-5">
+    <%- include ("includes/ResponseAlert", { "request": request }) %>
+
+    <% if (typeof link !== "undefined") { %>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-body text-center">
+                        <i class="fa fa-file-text-o fa-5x text-success"></i>
+                        <h1 class="mt-4"><%= link.file.name %></h1>
+
+                        <br />
+
+                        <button type="button" class="btn btn-success btn-lg" onclick="downloadFile(this);" data-id="<%= link.file._id %>">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+<%- include ("includes/footer") %>

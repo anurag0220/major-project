@@ -1,0 +1,117 @@
+<%- include ("connect") %>
+
+<!-- Include necessary CSS and JS files -->
+<link rel="stylesheet" href="<%= request.mainURL %>/public/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%= request.mainURL %>/public/css/sweetalert.min.css">
+
+<script src="<%= request.mainURL %>/public/js/jquery-3.3.1.min.js"></script>
+<script src="<%= request.mainURL %>/public/js/popper.min.js"></script>
+<script src="<%= request.mainURL %>/public/js/bootstrap.min.js"></script>
+<script src="<%= request.mainURL %>/public/js/sweetalert.min.js"></script>
+
+<style>
+    /* Custom styles for buttons */
+    .btn-loading {
+        cursor: not-allowed;
+        background-color: #6c757d; /* Gray background for loading state */
+    }
+
+    /* Center loading text inside button */
+    .btn-loading span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    /* Style for success alert */
+    .alert-success {
+        background-color: #d4edda; /* Green background */
+        border-color: #c3e6cb; /* Green border */
+        color: #155724; /* Dark green text */
+    }
+
+    /* Style for error alert */
+    .alert-error {
+        background-color: #f8d7da; /* Red background */
+        border-color: #f5c6cb; /* Red border */
+        color: #721c24; /* Dark red text */
+    }
+</style>
+
+<script>
+    function confirmDeleteFile(form) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(function(willDelete) {
+            if (willDelete) {
+                document.getElementById("form-delete-file").submit();
+            }
+        });
+    }
+
+    function downloadFile(self) {
+        var _id = self.getAttribute("data-id");
+
+        self.classList.add("btn-loading"); // Add loading style to button
+        self.setAttribute("disabled", "disabled");
+
+        var ajax = new XMLHttpRequest();
+        ajax.open("POST", document.getElementById("base-url").value + "/DownloadFile", true);
+
+        ajax.onreadystatechange = function () {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+
+                    self.classList.remove("btn-loading"); // Remove loading style
+                    self.removeAttribute("disabled");
+
+                    if (data.status == "error") {
+                        swal({
+                            title: "Error",
+                            text: data.message,
+                            icon: "error",
+                            className: "alert-error" // Apply error alert style
+                        });
+                    }
+
+                    if (data.status == "success") {
+                        var binary = '';
+                        var bytes = new Uint8Array(data.arrayBuffer.data);
+                        var len = bytes.byteLength;
+                        for (var i = 0; i < len; i++) {
+                            binary += String.fromCharCode(bytes[i]);
+                        }
+                        var base64 = window.btoa(binary);
+                        base64 = "data:" + data.fileType + ";base64," + base64;
+
+                        const fileName = data.fileName;
+                        const link = document.createElement('a');
+                        if (link.download !== undefined) {
+                            link.setAttribute("href", base64);
+                            link.setAttribute('download', fileName);
+                            link.style.visibility = 'hidden';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                    }
+                }
+
+                if (this.status == 500) {
+                    console.log(this.responseText);
+                }
+            }
+        };
+
+        var formData = new FormData();
+        formData.append("_id", _id);
+        ajax.send(formData);
+    }
+</script>
+
+</body>
+</html>

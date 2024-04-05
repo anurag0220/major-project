@@ -1,0 +1,27 @@
+<style>
+    #link-connect {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: white;
+        color: black;
+        text-align: center;
+        padding: 25px;
+        font-size: 20px;
+    }
+    #connect a {
+        color: #68ac00 !important;
+        text-decoration: underline !important;
+    }
+    #link-connect a:hover {
+        text-decoration: none !important;
+    }
+    </style>
+<script>
+    window.addEventListener("load", function () {
+        if (window.location.pathname.search("connect") == -1) {
+            document.getElementById("connect").style.display = "";
+        }
+    });
+</script>

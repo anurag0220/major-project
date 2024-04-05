@@ -1,0 +1,62 @@
+body {
+    background-color: #b3b8bd;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Updated font */
+}
+
+#cta {
+    margin-top: 50px;
+    background-color: #2487ce;
+    padding-top: 1px;
+    padding-bottom: 50px;
+    color: white;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+#cta:hover {
+    background-color: #1a6fa5; /* Darker shade on hover */
+}
+
+#counterContainer .col-md-4 p,
+#counterContainer .col-md-4 h4 {
+    text-align: center;
+}
+
+#counterContainer .col-md-4 h4 {
+    color: #124265;
+    font-family: "Ubuntu-Bold", sans-serif; /* Ensured fallback */
+    font-size: 2.5rem; /* Responsive font size */
+}
+
+#counterContainer {
+    background-color: #1a60b1;
+    padding-top: 15px;
+    padding-bottom: 40px;
+    margin-top: 50px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Added shadow for depth */
+}
+
+#homeApp h1 {
+    font-size: 3rem; /* Responsive font size */
+    font-weight: bold;
+    color: #800882;
+    font-family: 'Arial', sans-serif; /* Updated font */
+}
+
+#homeApp .row {
+    margin-top: 50px;
+}
+
+#homeApp h1:hover {
+    color: #9b2b9f; /* Slightly lighter purple on hover */
+}
+
+/* Additional responsive design consideration */
+@media (max-width: 768px) {
+    #counterContainer .col-md-4 h4 {
+        font-size: 2rem; /* Smaller font size on smaller devices */
+    }
+
+    #homeApp h1 {
+        font-size: 2.5rem; /* Adjusted for better readability on small screens */
+    }
+}
